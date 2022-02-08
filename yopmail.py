@@ -47,19 +47,16 @@ class Yopmail(object):
          time.sleep(8)
          frame_login = self.driver.switch_to.frame(self.driver.find_element(By.ID,'ifmail'))
          try:
-                  login_btn= self.driver.find_element(By.LINK_TEXT,'Log in to Akru TestNet')
-                  login_link=self.driver.find_element(By.LINK_TEXT,'Click here')
-                  signup_link= self.driver.find_element(By.LINK_TEXT,'Verify Email')
-                  if login_btn.is_displayed() and login_btn.is_enabled():
-                     login_btn.click()  
-
-                  elif login_link.is_displayed():
-                        login_link.click()
-
-                  elif signup_link.is_displayed():
-                        signup_link.click()      
-
-                  else:
+            login_btn= self.driver.find_element(By.XPATH,'//*[@id="mail"]/div/table/tbody/tr/td/div[2]/div/div/div/div/div/div[4]')
+            login_link=self.driver.find_element(By.LINK_TEXT,'Click here')
+            signup_link= self.driver.find_element(By.LINK_TEXT,'Verify Email')
+            if login_btn.is_displayed() and login_btn.is_enabled():
+               login_btn.click() 
+            elif login_link.is_displayed():
+                  login_link.click()
+            elif signup_link.is_displayed():
+                  signup_link.click()     
+            else:
                         print("Login Handle")
 
          except:
@@ -71,3 +68,28 @@ class Yopmail(object):
                else:
                  print("No Login link Found")
          #self.driver.close()
+
+      def login(self):
+         self.driver.execute_script("window.open()")
+         self.driver.switch_to.window(self.driver.window_handles[1])
+         self.driver.get("https://yopmail.com/en/")
+         time.sleep(20)
+         mail_field = self.driver.find_element(By.CLASS_NAME,'ycptinput')
+         mail_field.send_keys(Keys.CONTROL, "a")
+         mail_field.send_keys(Keys.BACKSPACE)
+         mail_field.send_keys(TestData.EMAIL)
+         self.driver.find_element(By.XPATH,'//*[@id="refreshbut"]/button/i').click()
+         time.sleep(8)
+         frame_login = self.driver.switch_to.frame(self.driver.find_element(By.ID,'ifmail'))
+
+                 
+         try:
+             login_btn=self.driver.find_element(By.XPATH,'//*[@id="mail"]/div/table/tbody/tr/td/div[2]/div/div/div/div/div/div[4]')
+             if login_btn.is_displayed() and login_btn.is_enabled():
+              login_btn.click()
+            
+         except:
+               login_link=self.driver.find_element(By.LINK_TEXT,'Click here')
+               if login_link.is_displayed():
+                login_link.click()
+
